@@ -23,3 +23,5 @@ export const best_score = writable((browser && localStorage.getItem('best_score'
 best_score.subscribe((val) => {
 	if (browser) return (localStorage.best_score = val);
 });
+
+export let user_authenticated = writable(false);

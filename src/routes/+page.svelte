@@ -2,22 +2,28 @@
 	import GameController from '../lib/components/game_controller.svelte';
 	import GameBoard from '../lib/components/game_board.svelte';
     import Landscape from '../lib/components/landscape.svelte';
+	import { user_authenticated } from '../lib/js/store';
+	import LogIn from "../lib/components/login.svelte"
+</script>
 
-  </script>
+{#if $user_authenticated == true}
+	<!-- the game can be only played in portrait mode -->
+	<Landscape />
 
-<!-- the game can be only played in portrait mode -->
-<Landscape />
-
-<div class="game-container">
-	<div class="game-controller">
-		<GameController />
-	</div>
-	<div class="game-board">
+	<div class="game-container">
+		<div class="game-controller">
+			<GameController />
+		</div>
+		<div class="game-board">
+			
+			<GameBoard />
+		</div>
 		
-		<GameBoard />
 	</div>
-	
-</div>
+{:else}
+	<LogIn />
+{/if}
+
 
 <style>
 	:global(:root) {
