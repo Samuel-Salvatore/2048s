@@ -1,29 +1,27 @@
 <!-- login.svelte -->
 <script>
-import { user_email, user_authenticated, user_login_progress } from '../js/store';
-  
+import { user_email, user_authenticated } from '../js/store';
+import {signOut, signInWithRedirect  } from 'firebase/auth';
+let provider = null;
+  let auth = null;
+  let user = {};
     async function signIn() {
-        log.info("SIGIN");
-        $user_login_progress = "true";
-        if (user.email.split('@')[1] != "istitutoagnelli.it") {
+        signInWithRedirect(auth, provider);
+        if (user_email.split('@')[1] != "istitutoagnelli.it") {
             alert("Login non autorizzato, puoi registrarti solo con l'account istituzionale")
-            log.error(`Unauthorized login by user ${user.email}`);
+            log.error(`Unauthorized login by user ${user_email}`);
             await signOut(auth);
-            $user_email = null; 
             $user_authenticated = "false";
-            $user_login_progress = "false";
         } else {
-            log.info(`User ${user.email} correctly signed in`);
-            $user_email = user.email; 
+            log.info(`User ${user_email} correctly signed in`);
             $user_authenticated = "true";
-            $user_login_progress = "false";
         }  
     }
   </script>
   
   <div class="container">
     <h1>Benvenuto, esegui il login per provare a vincere al torneo di 2048 e conquistare il titolo di campione scolastico</h1>
-    <button on:click={loginWithGoogle}>Login</button>
+    <button on:click={signIn}>Login</button>
   </div>
   
   <style>
